@@ -1,4 +1,4 @@
-package com.example.sunny.fragments.update
+package com.example.sunny.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -12,7 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.sunny.R
 import com.example.sunny.data.Entry
-import com.example.sunny.model.viewmodel.EntryViewModel
+import com.example.sunny.EntryViewModel
+import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_update.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
 
@@ -20,7 +21,7 @@ class UpdateFragment : Fragment() {
 
     private lateinit var mEntryViewModel: EntryViewModel
 
-    private var args by navArgs<UpdateFragmentArgs>()
+    private val args by navArgs<UpdateFragmentArgs>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -29,12 +30,12 @@ class UpdateFragment : Fragment() {
 
         mEntryViewModel = ViewModelProvider(this).get(EntryViewModel::class.java)
 
-        view.updateDate.setText((args.currentUser.date))
-        view.updateTitle.setText((args.currentUser.title))
-        view.updateEntry.setText((args.currentUser.entry))
-        view.updateMood.setText((args.currentUser.mood.toString()))
-        view.updateGratitude.setText((args.currentUser.gratitudeList))
-        view.updateGoals.setText((args.currentUser.goalList))
+        view.updateDate.setText((args.currentEntry.date))
+        view.updateTitle.setText((args.currentEntry.title))
+        view.updateEntry.setText((args.currentEntry.journalEntry))
+        view.updateMood.setText((args.currentEntry.mood.toString()))
+        view.updateGratitude.setText((args.currentEntry.gratitudeList))
+        view.updateGoals.setText((args.currentEntry.goalList))
 
         view.update.setOnClickListener{
             updateItem()

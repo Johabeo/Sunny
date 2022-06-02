@@ -6,25 +6,23 @@ import androidx.room.*
 @Dao
 interface EntryDao {
 
-    //uses a strategy based on name conflict to avoid duplicate entries
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addEntry(entry: Entry)
+    // Create
+    @Insert (onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertEntry(entry: Entry)
 
+    // Read
+    @Query("SELECT * FROM journal ORDER BY date ASC")
+    fun readAllEntries(): LiveData<List<Entry>>
+
+    // Update
     @Update
     suspend fun updateEntry(entry: Entry)
 
+    // Delete
     @Delete
     suspend fun deleteEntry(entry: Entry)
 
-    //Read
-    @Query("select * from journal")
-    fun selectStudents(): List<Entry>
-
-    @Query("delete from journal")
+    // Delete all
+    @Query("DELETE FROM journal")
     suspend fun deleteAllEntries()
-
-    //auto-sorts the return value by date
-    @Query("select * from journal order by date asc")
-        fun readAllData(): LiveData<List<Entry>>
-
 }

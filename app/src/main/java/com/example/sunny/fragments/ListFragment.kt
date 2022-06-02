@@ -1,6 +1,7 @@
-package com.example.sunny.fragments.list
+package com.example.sunny.fragments
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -9,8 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.sunny.R
-import com.example.sunny.model.viewmodel.EntryViewModel
+import com.example.sunny.data.Entry
+import com.example.sunny.fragments.list.ListAdapter
+import com.example.sunny.EntryViewModel
+import com.example.sunny.data.EntryRepository
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class ListFragment : Fragment() {
@@ -25,8 +31,7 @@ class ListFragment : Fragment() {
 
         // RecyclerView
         val adapter = ListAdapter()
-        val recyclerView = view.recyclerview
-        recyclerView.adapter = adapter
+        val recyclerView = view.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // UserViewModel
@@ -43,6 +48,7 @@ class ListFragment : Fragment() {
         return view
     }
 
+    //delete button functionality
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
         inflater.inflate(R.menu.delete_menu, menu)
     }
@@ -67,5 +73,4 @@ class ListFragment : Fragment() {
             builder.create().show()
         }
     }
-
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.sunny.fragments.list.ListFragment"
+        android:name="com.example.sunny.fragments.ListFragment"
         android:label="Your Journal"
         tools:layout="@layout/fragment_list" >
         <action
@@ -19,22 +19,28 @@
     </fragment>
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.example.sunny.fragments.add.AddFragment"
+        android:name="com.example.sunny.fragments.AddFragment"
         android:label="New Entries"
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_addFragment_to_listFragment2"
+            app:destination="@id/listFragment" />
     </fragment>
     <fragment
         android:id="@+id/updateFragment"
-        android:name="com.example.sunny.fragments.update.UpdateFragment"
+        android:name="com.example.sunny.fragments.UpdateFragment"
         android:label="Update" >
         <action
             android:id="@+id/action_updateFragment_to_listFragment"
             app:destination="@id/listFragment" />
         <argument
-            android:name="currentUser"
+            android:name="currentEntry"
             app:argType="com.example.sunny.data.Entry" />
+        <action
+            android:id="@+id/action_updateFragment_to_listFragment2"
+            app:destination="@id/listFragment" />
     </fragment>
 </navigation>

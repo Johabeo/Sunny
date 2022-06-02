@@ -11,10 +11,10 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "journal")
 data class Entry(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo val id: Int?,
-    @ColumnInfo val date: String?,
-    @ColumnInfo val title: String?,
-    @ColumnInfo val journalEntry: String?,
-    @ColumnInfo val mood: Int?,
-    @ColumnInfo val gratitudeList: String?,
-    @ColumnInfo val goalList: String?) : Parcelable
+     val id: Int,
+     val date: String,
+     val title: String,
+     val journalEntry: String,
+    val mood: Int,
+     val gratitudeList: String,
+     val goalList: String) : Parcelable
