@@ -1,36 +1,35 @@
-package com.example.sunny.fragments
+package com.example.sunny.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
-import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.sunny.R
 import com.example.sunny.data.Entry
-import com.example.sunny.EntryViewModel
-import kotlinx.android.synthetic.main.fragment_add.*
-import kotlinx.android.synthetic.main.fragment_add.view.*
+import com.example.sunny.data.EntryViewModel
+import com.example.sunny.databinding.ActivityAddBinding
+import com.example.sunny.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.activity_add.view.*
 
-class AddFragment : Fragment() {
+private lateinit var mainViewModel: EntryViewModel
+private lateinit var binding: ActivityMainBinding
 
-    private lateinit var mEntryViewModel: EntryViewModel
+class AddActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_add, container, false)
+        mainViewModel = ViewModelProvider(this).get(EntryViewModel::class.java)
 
-        mEntryViewModel = ViewModelProvider(this).get(EntryViewModel::class.java)
-
-        view.add.setOnClickListener {
+        binding.recyclerView.add.setOnClickListener {
             insertDataToDatabase()
         }
-
-        return view
     }
 
     private fun insertDataToDatabase(){
@@ -48,12 +47,13 @@ class AddFragment : Fragment() {
             val entry = Entry(0, date, title, entry, Integer.parseInt(mood.toString()),
                 gratitude, goals)
             // add user to database view Viewmodel
-            mEntryViewModel.addEntry(entry)
-            Toast.makeText(requireContext(), "Journal Entry Added", Toast.LENGTH_LONG).show()
+            mainViewModel.addEntry(entry)
+            Toast.makeText(this, "Journal Entry Added", Toast.LENGTH_LONG).show()
             // auto navigate user back to the list fragment
-            findNavController().navigate(R.id.action_addFragment_to_listFragment)
+            val myintent = Intent(this, MainActivity::class.java)
+            startActivity(myintent)
         }else{
-            Toast.makeText(requireContext(), "Please fill out required fields",
+            Toast.makeText(this, "Please fill out required fields",
                 Toast.LENGTH_LONG).show()
         }
     }
@@ -64,4 +64,3 @@ class AddFragment : Fragment() {
         return !(TextUtils.isEmpty(date) && TextUtils.isEmpty(title) && mood.isEmpty())
     }
 }
-

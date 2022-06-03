@@ -2,27 +2,41 @@ package com.example.sunny.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EntryDao {
 
-    // Create
+    /*
+    Create
+    uses conflict strategy to for duplicate id's
+    */
     @Insert (onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertEntry(entry: Entry)
+    fun insertEntry(entry: Entry)
 
-    // Read
+    /*
+    Read
+    the database query is pre-sorted by date, like a real journal
+    */
     @Query("SELECT * FROM journal ORDER BY date ASC")
-    fun readAllEntries(): LiveData<List<Entry>>
+    fun getAllEntries(): LiveData<List<Entry>>
 
-    // Update
+    /*
+    The search function member, returns data when the search text matches the date or title
+     */
+    @Query("SELECT * FROM journal WHERE date LIKE :searchQuery OR title LIKE :searchQuery")
+    fun searchJournal(searchQuery: String): LiveData<List<Entry>>
+
+    /* Update */
     @Update
-    suspend fun updateEntry(entry: Entry)
+    fun updateEntry(entry: Entry)
 
-    // Delete
+    /* Delete */
     @Delete
-    suspend fun deleteEntry(entry: Entry)
+    fun deleteEntry(entry: Entry)
 
-    // Delete all
+    /* Delete all */
     @Query("DELETE FROM journal")
-    suspend fun deleteAllEntries()
+    fun deleteAllEntries()
+
 }

@@ -5,7 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-
+/*
+Standard database class, if database does not exist a new one is created, but only one exists
+for space complexity
+ */
 @Database(entities = [Entry::class], version = 1, exportSchema = false)
 abstract class EntryDatabase : RoomDatabase() {
 

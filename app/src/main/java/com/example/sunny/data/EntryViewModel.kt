@@ -1,5 +1,4 @@
-package com.example.sunny
-
+package com.example.sunny.data
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -13,15 +12,17 @@ import kotlinx.coroutines.launch
 
 class EntryViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllData: LiveData<List<Entry>>
+    val allEntries: LiveData<List<Entry>>
     private val repository: EntryRepository
 
+    /* Database is initialized */
     init {
-        val entryDao = EntryDatabase.getDatabase(application).entryDao()
-        repository = EntryRepository(entryDao)
-        readAllData = repository.readAllEntries
+       // val entryDao = EntryDatabase.getDatabase(application).entryDao()
+        repository = EntryRepository(application)
+        allEntries = repository.getAllEntries()!!
     }
 
+    /* All members are excluding read are abstracted through the viewmodel */
     fun addEntry(entry: Entry){
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertEntry(entry)
@@ -31,6 +32,12 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     fun updateEntry(entry: Entry){
         viewModelScope.launch(Dispatchers.IO){
             repository.updateEntry(entry)
+        }
+    }
+
+    fun searchJournal(searchQuery: String){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.searchJournal(searchQuery)
         }
     }
 

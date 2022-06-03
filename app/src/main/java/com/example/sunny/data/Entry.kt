@@ -1,20 +1,20 @@
 package com.example.sunny.data
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
 
-
-@Parcelize
+/*
+Each user has a "Journal" of entries, this is designed to help them reflect according to CBT
+techniques. Mood is an int to test field level validation and will be converted into an button
+set in future iterations.
+ */
 @Entity(tableName = "journal")
 data class Entry(
-    @PrimaryKey(autoGenerate = true)
-     val id: Int,
-     val date: String,
-     val title: String,
-     val journalEntry: String,
-    val mood: Int,
-     val gratitudeList: String,
-     val goalList: String) : Parcelable
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "date")val date: String,
+    @ColumnInfo(name = "title")val title: String,
+    @ColumnInfo(name = "journalentry")val journalEntry: String,
+    @ColumnInfo(name = "mood")val mood: Int,
+    @ColumnInfo(name = "gratitudelist")val gratitudeList: String,
+    @ColumnInfo(name = "goallist")val goalList: String)

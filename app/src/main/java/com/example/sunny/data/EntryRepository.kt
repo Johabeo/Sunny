@@ -1,33 +1,37 @@
 package com.example.sunny.data
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.sunny.data.Entry
 import com.example.sunny.data.EntryDao
 import com.example.sunny.data.EntryDatabase
+import kotlinx.coroutines.flow.Flow
 
-class EntryRepository(private val entryDao: EntryDao) {
+class EntryRepository(context: Context) {
 
-    val readAllEntries: LiveData<List<Entry>> = entryDao.readAllEntries()
+    var db: EntryDao? = EntryDatabase.getDatabase(context)?.entryDao()
 
-//    fun getAllEntries(): LiveData<List<Entry>> {
-//        return (db?.selectEntries() ?: listOf<Entry>()) as LiveData<List<Entry>>
-//    }
+    fun getAllEntries(): LiveData<List<Entry>>? {
+        return db?.getAllEntries()  //returns an empty list if null
+    }
 
     suspend fun insertEntry(entry : Entry) {
-        entryDao.insertEntry(entry)
+        db?.insertEntry(entry)
     }
 
     suspend fun updateEntry(entry : Entry) {
-        entryDao.updateEntry(entry)
+        db?.updateEntry(entry)
+    }
+
+    fun searchJournal(searchQuery: String): LiveData<List<Entry>> {
+        return searchJournal(searchQuery)
     }
 
     suspend fun deleteEntry(entry : Entry){
-        entryDao.deleteEntry(entry)
+        db?.deleteEntry(entry)
     }
 
     suspend fun deleteAllEntries(){
-        entryDao.deleteAllEntries()
+        db?.deleteAllEntries()
     }
-
-
 }
